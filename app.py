@@ -33,7 +33,7 @@ def create_item():
     return jsonify({'id': new_id, **new_item}), 201
 
 def run_flask():
-    port = int(os.environ.get('PORT', 4200))
+    port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
 
 # Start the Flask app in a separate thread
@@ -44,7 +44,7 @@ thread.start()
 st.title("Flask API with Streamlit")
 
 # Fetch and display items
-response = requests.get('http://127.0.0.1:4200/api/items')
+response = requests.get('http://127.0.0.1:8080/api/items')
 if response.status_code == 200:
     items = response.json()
     st.write("Items:")
@@ -59,7 +59,7 @@ new_name = st.text_input("Item Name")
 new_description = st.text_area("Item Description")
 if st.button("Create Item"):
     new_item = {'name': new_name, 'description': new_description}
-    create_response = requests.post('http://127.0.0.1:4200/api/items', json=new_item)
+    create_response = requests.post('http://127.0.0.1:8080/api/items', json=new_item)
     if create_response.status_code == 201:
         st.success("Item created successfully!")
     else:
