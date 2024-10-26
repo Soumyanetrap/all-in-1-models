@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from threading import Thread
 
 app = Flask(__name__)
 
@@ -27,5 +28,9 @@ def create_item():
     data[new_id] = new_item
     return jsonify({'id': new_id, **new_item}), 201
 
-if __name__ == '__main__':
-    app.run(debug=True)
+def run_flask():
+    app.run(port=5000)
+
+# Start the Flask app in a separate thread
+thread = Thread(target=run_flask)
+thread.start()
