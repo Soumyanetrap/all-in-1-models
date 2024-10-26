@@ -10,6 +10,7 @@ data = {
 
 @app.route('/api/items', methods=['GET'])
 def get_items():
+    print("Here")
     return jsonify(data)
 
 @app.route('/api/items/<int:item_id>', methods=['GET'])
