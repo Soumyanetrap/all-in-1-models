@@ -29,7 +29,7 @@ def create_item():
     return jsonify({'id': new_id, **new_item}), 201
 
 def run_flask():
-    app.run(port=5000)
+    app.run(port=8080)
 
 # Start the Flask app in a separate thread
 thread = Thread(target=run_flask)
