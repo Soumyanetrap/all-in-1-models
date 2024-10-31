@@ -30,4 +30,4 @@ def create_item():
     return jsonify({'id': new_id, **new_item}), 201
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
+    app.run()
