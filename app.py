@@ -1,35 +1,50 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS
-import os
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import Dict
 
-# Flask app
-app = Flask(__name__)
-CORS(app)
+# FastAPI app
+app = FastAPI()
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Adjust this as needed for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Sample data
-data = {
+data: Dict[int, dict] = {
     1: {'name': 'Item 1', 'description': 'This is item 1'},
     2: {'name': 'Item 2', 'description': 'This is item 2'},
 }
 
-@app.route('/api/items', methods=['GET'])
-def get_items():
-    return jsonify(data)
+# Pydantic model for new items
+class Item(BaseModel):
+    name: str
+    description: str
 
-@app.route('/api/items/<int:item_id>', methods=['GET'])
-def get_item(item_id):
+@app.get("/api/items")
+def get_items():
+    return data
+
+@app.get("/api/items/{item_id}")
+def get_item(item_id: int):
     item = data.get(item_id)
     if item:
-        return jsonify(item)
+        return item
     else:
-        return jsonify({'error': 'Item not found'}), 404
+        raise HTTPException(status_code=404, detail="Item not found")
 
-@app.route('/api/items', methods=['POST'])
-def create_item():
+@app.post("/api/items", response_model=Item)
+def create_item(item: Item):
     new_id = max(data.keys()) + 1
-    new_item = request.json
-    data[new_id] = new_item
-    return jsonify({'id': new_id, **new_item}), 201
+    data[new_id] = item.dict()
+    return {**item.dict(), "id": new_id}
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == "__main__":
+#     import uvicorn
+#     import os
+#     uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))

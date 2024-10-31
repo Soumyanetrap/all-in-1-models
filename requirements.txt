@@ -1,2 +1,4 @@
-Flask==3.0.3
-Flask-Cors==5.0.0
+# Flask==3.0.3
+# Flask-Cors==5.0.0
+fastapi==0.115.4
+uvicorn==0.32.0
