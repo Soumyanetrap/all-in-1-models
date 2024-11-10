@@ -1,0 +1,2 @@
+## For Production
+* vercel --prod
