@@ -29,11 +29,10 @@ def chat(context):
                             "Distance": fill in with the total distance of the travel in KM,
                             "Passenger details": list of dicts with all passenger details(name, age, sex, seat no, type(Sleeper, AC, Economy, Business and so on) etc.),
                             "Amount": fill in the blank with your answer,
-                            "Additional Conditions: fill in with luggage, food, and other conditions,"
+                            "Additional Info": fill in with luggage, food, and other information. Avoid putting generic info like 'T & C', 'Be Aware of Fraud' etc.
                         }
                         Note: Keep fields empty if not available in the context. Do not add wrong information.
                         '''
-                        
         }
     ],
     temperature=0,
@@ -46,5 +45,6 @@ def chat(context):
     response_text = ''.join(chunk.choices[0].delta.content or "" for chunk in completion)
     
     match = re.search(r'```(.*?)```', response_text, re.DOTALL)
+    print(match[1].strip())
 
     return json.loads(match[1].strip()) if match else {"error": "No JSON found in response"}
