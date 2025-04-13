@@ -1,6 +1,8 @@
 from fastapi import FastAPI, File, UploadFile
 import fitz  # PyMuPDF
 
+from models.groq import chat
+
 app = FastAPI()
 
 @app.get("/")
@@ -13,18 +15,14 @@ async def say_helloworld():
 
 @app.post("/readpdf")
 async def receive_pdf(file: UploadFile = File(...)):
-    # print(f"Received file: {file.filename}")
-
-    # Read file content into memory
     file_content = await file.read()
 
-    # Load it into PyMuPDF from memory
     doc = fitz.open(stream=file_content, filetype="pdf")
 
-    # Extract text from all pages
     full_text = ''.join(page.get_text() for page in doc)
+    pdf_data = chat(full_text)
 
     return {
         "filename": file.filename,
-        "text": full_text
+        "text": pdf_data
     }
