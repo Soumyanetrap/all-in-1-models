@@ -61,11 +61,15 @@
 
 # #             # Sleep for 14 minutes before the next check
 # #             await asyncio.sleep(14.5 * 60)
-
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 
 app = FastAPI()
 
 @app.get("/helloworld")
 async def read_root():
     return {"message": "Hello World"}
+
+@app.post("/sendpdf")
+async def receive_pdf(file: UploadFile = File(...)):
+    print(f"Received file: {file.filename}")
+    return {"filename": file.filename}
