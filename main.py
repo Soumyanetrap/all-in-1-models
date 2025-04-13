@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 import fitz  # PyMuPDF
 
-from models.groq import chat
+from services.groq import chat
 
 app = FastAPI()
 
