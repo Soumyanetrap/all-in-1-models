@@ -31,7 +31,7 @@ def chat(context):
                             "Amount": fill in the blank with your answer,
                             "Additional Info": fill in with luggage, food, and other information. Avoid putting generic info like 'T & C', 'Be Aware of Fraud' etc.
                         }
-                        Note: Keep fields empty if not available in the context. Do not add wrong information.
+                        Note: Keep fields empty if not available in the context. Do not add wrong information. If you add more keys, please ensure their values are in String
                         '''
         }
     ],
