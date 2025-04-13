@@ -24,5 +24,5 @@ async def receive_pdf(file: UploadFile = File(...)):
 
     return {
         "filename": file.filename,
-        "text": pdf_data
+        **pdf_data
     }

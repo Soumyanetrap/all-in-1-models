@@ -26,7 +26,7 @@ def chat(context):
                             "Time of Travel": fill in the blank with your answer,
                             "Date of Arrival": fill in the blank with your answer,
                             "Time of Arrival": fill in the blank with your answer,
-                            "Distance" fill in with the total distance of the travel,
+                            "Distance": fill in with the total distance of the travel in KM,
                             "Passenger details": list of dicts with all passenger details(name, age, sex, seat no, type(Sleeper, AC, Economy, Business and so on) etc.),
                             "Amount": fill in the blank with your answer,
                             "Additional Conditions: fill in with luggage, food, and other conditions,"
