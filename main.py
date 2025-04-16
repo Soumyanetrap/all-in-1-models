@@ -1,6 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-import fitz  # PyMuPDF
+import pdfplumber
+import io
 
 from services.groq import chat
 
@@ -26,9 +27,14 @@ async def say_helloworld():
 async def receive_pdf(file: UploadFile = File(...)):
     file_content = await file.read()
 
-    doc = fitz.open(stream=file_content, filetype="pdf")
+    pdf_file = io.BytesIO(file_content)
 
-    full_text = ''.join(page.get_text() for page in doc)
+    full_text = ""
+    with pdfplumber.open(pdf_file) as pdf:
+        for page in pdf.pages:
+            if (text := page.extract_text()):
+                full_text += text + "\n"
+                
     pdf_data = chat(full_text)
 
     return {
